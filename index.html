@@ -123,7 +123,37 @@ body{
     text-align: right;
 }
 
+.record{
+    width: 100px;
+    height: 30px;
+
+    position: absolute;
+    top: 40px;
+    right: 6px;
+    z-index: 10;
+
+    color: #ffd900;
+    font-family: Verdana;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: right;
+}
+
 .game-over{
+    display: none;
+
+    position: absolute;
+    width: 100%;
+
+
+    text-align: center;
+    color: #ffd900;
+    font-size: 30px;
+    font-family: Verdana;
+    font-weight: 700;
+}
+
+.inicio{
     display: none;
 
     position: absolute;
@@ -158,10 +188,14 @@ body{
         <div class="dino dino-corriendo"></div>
 
         <div class="score">0</div>
-
+        <div class="record">Record: </div>
     </div>
 
-    <div class="game-over">GAME OVER</div>
+    <div class="game-over">GAME OVER
+        <h6>Espacio para continuar...</h6>
+    </div>
+    <div class="inicio">Doble click para empezar...</div>
+    
     
 
 <script>
@@ -179,6 +213,9 @@ if(document.readyState === "complete" || document.readyState === "interactive"){
 
 function Init() {
     time = new Date();
+    if(sessionStorage.getItem("primera") != null){
+        click = true;
+    }
     Start();
     Loop();
 }
@@ -204,9 +241,12 @@ var sueloX = 0;
 var velEscenario = 1280/3;
 var gameVel = 1;
 var score = 0;
+var record = 0;
 
 var parado = false;
 var saltando = false;
+var click = false;
+var primera = 0;
 
 var tiempoHastaObstaculo = 2;
 var tiempoObstaculoMin = 0.7;
@@ -227,27 +267,43 @@ var dino;
 var textoScore;
 var suelo;
 var gameOver;
+var inicio;
 
 function Start() {
     gameOver = document.querySelector(".game-over");
+    inicio = document.querySelector(".inicio");
     suelo = document.querySelector(".suelo");
     contenedor = document.querySelector(".contenedor");
     textoScore = document.querySelector(".score");
+    textoRecord = document.querySelector(".record");
+    record = localStorage.getItem("record")
+    textoRecord.innerText += " " + record
     dino = document.querySelector(".dino");
     document.addEventListener("keydown", HandleKeyDown);
+    document.addEventListener("click", ClickStart);
 }
 
 function Update() {
-    if(parado) return;
-    
-    MoverDinosaurio();
-    MoverSuelo();
-    DecidirCrearObstaculos();
-    DecidirCrearNubes();
-    MoverObstaculos();
-    MoverNubes();
-    DetectarColision();
+    sessionStorage.setItem("primera", "true")
 
+    if(parado) return;
+    if(click){
+        MoverDinosaurio();
+        MoverSuelo();
+        DecidirCrearObstaculos();
+        DecidirCrearNubes();
+        MoverObstaculos();
+        MoverNubes();
+        DetectarColision();
+        if(primera == 1){
+            dino.classList.add("dino-corriendo");
+            inicio.style.display = ""
+            primera++
+        }
+    }else{
+        dino.classList.remove("dino-corriendo");
+        inicio.style.display = "block"
+    }
     velY -= gravedad * deltaTime;
 }
 
@@ -256,6 +312,11 @@ function HandleKeyDown(ev){
         if (!parado) Saltar();
         else location.reload();
     }
+}
+
+function ClickStart(ev){
+    primera ++
+    click = true;
 }
 
 function Saltar(){
@@ -385,7 +446,10 @@ function GanarPuntos() {
 function GameOver() {
     Estrellarse();
     gameOver.style.display = "block";
-
+    if (score > record){
+        record = score;
+        localStorage.setItem("record", record)
+    }
 }
 
 function DetectarColision() {
