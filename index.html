@@ -116,6 +116,7 @@ body{
     right: 15px;
     z-index: 10;
 
+    -webkit-text-stroke: 1px black;
     color: #ffd900;
     font-family: Verdana;
     font-size: 30px;
@@ -132,7 +133,8 @@ body{
     right: 6px;
     z-index: 10;
 
-    color: #ffd900;
+    -webkit-text-stroke: 0.5px black;
+    color: #fddd25;
     font-family: Verdana;
     font-size: 18px;
     font-weight: bold;
@@ -149,7 +151,8 @@ body{
     text-align: center;
     color: #ffd900;
     font-size: 30px;
-    font-family: Verdana;
+    font-family: "Retro Computer";
+    src: url("https://www.dafont.com/es/retro-computer.font");
     font-weight: 700;
 }
 
@@ -163,8 +166,54 @@ body{
     text-align: center;
     color: #ffd900;
     font-size: 30px;
-    font-family: Verdana;
+    font-family: "Retro Computer";
+    src: url("https://www.dafont.com/es/retro-computer.font");
     font-weight: 700;
+}
+
+.parpadea {
+    width: 200px;
+    height: 30px;
+
+    position: absolute;
+    top: 40px;
+    right: 6px;
+    z-index: 10;
+
+    -webkit-text-stroke: 0.5px black;
+    color: #fddd25;
+    font-family: Verdana;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: right;
+
+    animation-name: parpadeo;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+
+    -webkit-animation-name:parpadeo;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+}
+
+@-moz-keyframes parpadeo{  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes parpadeo {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@keyframes parpadeo {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
 }
 
 @keyframes animarDino{
@@ -189,6 +238,7 @@ body{
 
         <div class="score">0</div>
         <div class="record">Record: </div>
+        <div class="parpadea"></div>
     </div>
 
     <div class="game-over">GAME OVER
@@ -276,8 +326,13 @@ function Start() {
     contenedor = document.querySelector(".contenedor");
     textoScore = document.querySelector(".score");
     textoRecord = document.querySelector(".record");
-    record = localStorage.getItem("record")
+    textoP = document.querySelector(".parpadea");
+
+    if (localStorage.getItem("record") != null){
+        record = localStorage.getItem("record")
+    }
     textoRecord.innerText += " " + record
+    
     dino = document.querySelector(".dino");
     document.addEventListener("keydown", HandleKeyDown);
     document.addEventListener("click", ClickStart);
@@ -448,7 +503,11 @@ function GameOver() {
     gameOver.style.display = "block";
     if (score > record){
         record = score;
-        localStorage.setItem("record", record)
+        localStorage.setItem("record", record);
+        textoRecord.innerText = ""
+        textoP.innerText = "Record: " + record
+        
+        
     }
 }
 
