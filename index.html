@@ -54,7 +54,22 @@ body{
     z-index: 2;
 
     background: url(img/benny.png) repeat-x 0px 0px;
-    background-size: 336px 84px;
+    background-size: 336px 155px;
+    background-position-x: 0px;
+
+}
+
+.dino-agachado {
+    width: 84px;
+    height:70px;
+
+    position: absolute;
+    bottom: 22px;
+    left: 42px;
+    z-index: 2;
+
+    background: url(img/benny.png) repeat-x 0px 0px;
+    background-size: 336px 155px;
     background-position-x: 0px;
 
 }
@@ -62,8 +77,18 @@ body{
 .dino-corriendo {
     animation: animarDino 0.25s steps(2) infinite;
 }
+
+.dino-corriendo-agachado {
+    animation: animarDinoAgachado 0.25s steps(2) infinite;
+}
+
 .dino-estrellado {
     background-position-x: -252px;
+}
+
+.dino-agachado-estrellado {
+    background-position-x: -252px;
+    background-position-y: -84px; /*creo*/
 }
 
 .suelo {
@@ -79,8 +104,8 @@ body{
 
 }
 
-.cactus{
-    width: 46px;
+.coca{
+    width: 31px;
     height: 96px;
 
     position: absolute;
@@ -90,11 +115,23 @@ body{
 
     background: url(img/coca1.png) no-repeat;
 }
-.cactus2{
+.coca2{
     width: 98px;
     height: 66px;
 
     background: url(img/coca2.png) no-repeat;
+}
+
+.volador{
+    width: 96px;
+    height: 140px;
+
+    position: absolute;
+    bottom: 90px;
+    left: 600px;
+    z-index: 1;
+
+    background: url(img/coca3.png) no-repeat;
 }
 
 .nube{
@@ -226,6 +263,16 @@ body{
     }
 }
 
+@keyframes animarDinoAgachado{
+    from{
+        background-position-x: -84px;
+        background-position-y: -84px;
+    }
+    to{
+        background-position-x: -252px;
+        background-position-y: -84px;
+    }
+}
 
     </style>
 </head>
@@ -236,6 +283,7 @@ body{
         <div class="suelo"></div>
         
         <div class="dino dino-corriendo"></div>
+        <div class="dino-agachado dino-corriendo-agachado"></div>
 
         <div class="score">0</div>
         <div class="record">Record: </div>
@@ -245,9 +293,7 @@ body{
     <div class="game-over"><h1>GAME OVER</h1>
         <h6>Pulsa espacio para continuar...</h6>
     </div>
-    <div class="inicio">Doble click para empezar...</div>
-    
-    
+    <div class="inicio">Click para empezar...</div>
 
 <script>
 
@@ -296,6 +342,7 @@ var record = 0;
 
 var parado = false;
 var saltando = false;
+var agachado = false;
 var click = false;
 var primera = 0;
 
@@ -320,6 +367,7 @@ const deadMusic = new Audio("audio/dead.mp3");
 
 var contenedor;
 var dino;
+var dinoAgachado;
 var textoScore;
 var suelo;
 var gameOver;
@@ -340,6 +388,8 @@ function Start() {
     textoRecord.innerText += " " + record
     
     dino = document.querySelector(".dino");
+    dinoAgachado = document.querySelector(".dino-agachado");
+    dinoAgachado.classList.remove("dino-agachado")
     document.addEventListener("keydown", HandleKeyDown);
     document.addEventListener("click", ClickStart);
 }
@@ -360,8 +410,10 @@ function Update() {
             startMusic.play();
             dino.classList.add("dino-corriendo");
             inicio.style.display = ""
+            dinoAgachado.classList.remove("dino-agachado")
             primera++
         }
+        
     }else{
         dino.classList.remove("dino-corriendo");
         inicio.style.display = "block"
@@ -370,10 +422,10 @@ function Update() {
 }
 
 function HandleKeyDown(ev){
-    if(ev.keyCode == 32){
+    if(ev.keyCode == 32 || ev.keyCode == 38){
         if (!parado) Saltar();
         else location.reload();
-    }
+    }else if (ev.keyCode == 40 && !parado) Agacharce(); 
 }
 
 function ClickStart(ev){
@@ -387,7 +439,31 @@ function Saltar(){
             jumpMusic.play();
             saltando = true;
             velY = impulso;
-            dino.classList.remove("dino-corriendo");
+            if (agachado){
+                dinoAgachado.classList.remove("dino-agachado");
+                dinoAgachado.classList.remove("dino-corriendo-agachado");
+                dino.classList.add("dino")
+                dino.classList.remove("dino-corriendo")
+            }else dino.classList.remove("dino-corriendo");
+            agachado = false;
+        }
+    }
+}
+
+function Agacharce(){
+    if (!click) return
+    if (!saltando){
+        if (agachado){
+            agachado = false;
+            dino.classList.add("dino")
+            dino.classList.add("dino-corriendo")
+            dinoAgachado.classList.remove("dino-agachado")
+        }  
+        else{
+            agachado = true;
+            dino.classList.remove("dino");
+            dinoAgachado.classList.add("dino-agachado")
+            dinoAgachado.classList.add("dino-corriendo-agachado")
         }
     }
 }
@@ -398,7 +474,7 @@ function MoverDinosaurio() {
         
         TocarSuelo();
     }
-    dino.style.bottom = dinoPosY+"px";
+    if (agachado) dinoAgachado.style.bottom = dinoPosY+"px"; else dino.style.bottom = dinoPosY+"px";
 }
 
 function TocarSuelo() {
@@ -420,8 +496,13 @@ function CalcularDesplazamiento() {
 }
 
 function Estrellarse() {
-    dino.classList.remove("dino-corriendo");
-    dino.classList.add("dino-estrellado");
+    if (agachado){
+        dinoAgachado.classList.remove("dino-corriendo-agachado");
+        dinoAgachado.classList.add("dino-agachado-estrellado");
+    }else{
+        dino.classList.remove("dino-corriendo");
+        dino.classList.add("dino-estrellado");
+    }
     parado = true;
 }
 
@@ -442,8 +523,24 @@ function DecidirCrearNubes() {
 function CrearObstaculo() {
     var obstaculo = document.createElement("div");
     contenedor.appendChild(obstaculo);
-    obstaculo.classList.add("cactus");
-    if(Math.random() > 0.5) obstaculo.classList.add("cactus2");
+    obstaculo.classList.add("coca");
+    var r = Math.random();
+    if(score > 66){
+        if(r < 0.36) {
+            obstaculo.classList.add("coca2");
+        } else if(r > 0.75) {
+            obstaculo.classList.add("volador");
+        }
+    }else if(score > 25){
+        if (r < 0.11){
+            obstaculo.classList.add("volador")
+        }else if(r < 0.51){
+            obstaculo.classList.add("coca2")
+        }
+    }else{
+        if(r > 0.65) obstaculo.classList.add("coca2");
+    }
+
     obstaculo.posX = contenedor.clientWidth;
     obstaculo.style.left = contenedor.clientWidth+"px";
 
@@ -494,7 +591,7 @@ function GanarPuntos() {
     if(score == 5){
         gameVel = 1.3;
         contenedor.classList.add("mediodia");
-    }else if(socre == 14){
+    }else if(score == 14){
         gameVel = 1.7;
     }else if(score == 20) {
         gameVel = 2;
@@ -532,7 +629,8 @@ function DetectarColision() {
             //EVADE
             break; //al estar en orden, no puede chocar con más
         }else{
-            if(IsCollision(dino, obstaculos[i], 10, 30, 15, 20)) {
+            if ((agachado && IsCollision(dinoAgachado, obstaculos[i], 10, 30, 15, 20)) || 
+            (!agachado && IsCollision(dino, obstaculos[i], 10, 30, 15, 20))){
                 GameOver();
             }
         }
