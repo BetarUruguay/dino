@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dinosaurio Chrome V2</title>
+    <style>
+
+* {
+    padding: 0;
+    margin: 0;
+}
+
+body{
+    height: 100vh;
+    background: #584040;
+    display: flex;
+    align-items: center;
+}
+
+
+.contenedor {
+    width: 920px;
+    height: 450px;
+    margin: 0 auto;
+    
+    position: relative;
+
+    background: linear-gradient(#b7d6c7, transparent) #ffe2d1;/*linear-gradient(#90ebff, white);*/
+    transition: background-color 1s linear;
+    overflow: hidden;
+}
+
+.mediodia {
+    background-color: #ffdcf3;
+}
+
+.tarde {
+    background-color: #ffadad;
+}
+
+.noche {
+    background-color: #aca8c7;
+}
+
+.dino {
+    width: 84px;
+    height: 84px;
+
+    position: absolute;
+    bottom: 22px;
+    left: 42px;
+    z-index: 2;
+
+    background: url(img/benny.png) repeat-x 0px 0px;
+    background-size: 336px 155px;
+    background-position-x: 0px;
+
+}
+
+.dino-agachado {
+    width: 84px;
+    height:70px;
+
+    position: absolute;
+    bottom: 22px;
+    left: 42px;
+    z-index: 2;
+
+    background: url(img/benny.png) repeat-x 0px 0px;
+    background-size: 336px 155px;
+    background-position-x: 0px;
+
+}
+
+.dino-corriendo {
+    animation: animarDino 0.25s steps(2) infinite;
+}
+
+.dino-corriendo-agachado {
+    animation: animarDinoAgachado 0.25s steps(2) infinite;
+}
+
+.dino-estrellado {
+    background-position-x: -252px;
+}
+
+.dino-agachado-estrellado {
+    background-position-x: -252px;
+    background-position-y: -84px; /*creo*/
+}
+
+.suelo {
+    width: 200%;
+    height: 42px;
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    background: url(img/suelo.png) repeat-x 0px 0px;
+    background-size: 50% 42px;
+
+}
+
+.reglas{
+    height: 139px;
+    width: 239px;
+
+    position: absolute;
+    top: 10px;
+    left: 10px;
+
+    background: url(img/reglas.png) repeat-x 0px 0px;
+}
+
+.coca{
+    width: 31px;
+    height: 96px;
+
+    position: absolute;
+    bottom: 16px;
+    left: 600px;
+    z-index: 1;
+
+    background: url(img/coca1.png) no-repeat;
+}
+.coca2{
+    width: 98px;
+    height: 66px;
+
+    background: url(img/coca2.png) no-repeat;
+}
+
+.volador{
+    width: 96px;
+    height: 140px;
+
+    position: absolute;
+    bottom: 90px;
+    left: 600px;
+    z-index: 1;
+
+    background: url(img/coca3.png) no-repeat;
+}
+
+.nube{
+    width: 92px;
+    height: 26px;
+
+    position: absolute;
+    z-index: 0;
+
+    background: url(img/nube.png) no-repeat;
+    background-size: 92px 26px;
+}
+
+.score{
+    width: 100px;
+    height: 30px;
+
+    position: absolute;
+    top: 5px;
+    right: 15px;
+    z-index: 10;
+
+    -webkit-text-stroke: 1px black;
+    color: #ffd900;
+    font-family: Verdana;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: right;
+}
+
+.record{
+    width: 200px;
+    height: 30px;
+
+    position: absolute;
+    top: 40px;
+    right: 6px;
+    z-index: 10;
+
+    -webkit-text-stroke: 0.5px black;
+    color: #ffd900;
+    font-family: Verdana;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: right;
+}
+
+.game-over{
+    display: none;
+
+    position: absolute;
+    width: 100%;
+
+
+    text-align: center;
+    color: #ffd900;
+    font-size: 25px;
+    font-family: "Retro Computer";
+    src: url("https://www.dafont.com/es/retro-computer.font");
+    font-weight: 700;
+}
+
+.inicio{
+    display: none;
+
+    position: absolute;
+    width: 100%;
+
+
+    text-align: center;
+    color: #ffd900;
+    font-size: 30px;
+    font-family: "Retro Computer";
+    src: url("https://www.dafont.com/es/retro-computer.font");
+    font-weight: 700;
+}
+
+.parpadea {
+    width: 200px;
+    height: 30px;
+
+    position: absolute;
+    top: 40px;
+    right: 6px;
+    z-index: 10;
+
+    -webkit-text-stroke: 0.5px black;
+    color: #fddd25;
+    font-family: Verdana;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: right;
+
+    animation-name: parpadeo;
+    animation-duration: 1s;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+
+    -webkit-animation-name:parpadeo;
+    -webkit-animation-duration: 1s;
+    -webkit-animation-timing-function: linear;
+    -webkit-animation-iteration-count: infinite;
+}
+
+@-moz-keyframes parpadeo{  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@-webkit-keyframes parpadeo {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@keyframes parpadeo {  
+    0% { opacity: 1.0; }
+    50% { opacity: 0.0; }
+    100% { opacity: 1.0; }
+}
+
+@keyframes animarDino{
+    from{
+        background-position-x: -84px;
+    }
+    to{
+        background-position-x: -252px;
+    }
+}
+
+@keyframes animarDinoAgachado{
+    from{
+        background-position-x: -84px;
+        background-position-y: -84px;
+    }
+    to{
+        background-position-x: -252px;
+        background-position-y: -84px;
+    }
+}
+
+    </style>
+</head>
+<body>
+
+    <div class="contenedor">
+
+        <div class="suelo"></div>
+        
+        <div class="reglas"></div>
+
+        <div class="dino dino-corriendo"></div>
+        <div class="dino-agachado dino-corriendo-agachado"></div>
+
+        <div class="score">0</div>
+        <div class="record">Record: </div>
+        <div class="parpadea"></div>
+    </div>
+
+    <div class="game-over"><h1>GAME OVER</h1>
+        <h6>Pulsa espacio para continuar...</h6>
+    </div>
+    <div class="inicio">Click para empezar...</div>
+
+<script>
+
+//****** GAME LOOP ********//
+
+var time = new Date();
+var deltaTime = 0;
+
+if(document.readyState === "complete" || document.readyState === "interactive"){
+    setTimeout(Init, 1);
+}else{
+    document.addEventListener("DOMContentLoaded", Init); 
+}
+
+function Init() {
+    time = new Date();
+    if(sessionStorage.getItem("primera") != null){
+        click = true;
+    }
+    Start();
+    Loop();
+}
+
+function Loop() {
+    deltaTime = (new Date() - time) / 1000;
+    time = new Date();
+    Update();
+    requestAnimationFrame(Loop);
+}
+
+//****** GAME LOGIC ********//
+
+var sueloY = 22;
+var velY = 0;
+var impulso = 900;
+var gravedad = 2500;
+
+var dinoPosX = 42;
+var dinoPosY = sueloY; 
+
+var sueloX = 0;
+var velEscenario = 1280/3;
+var gameVel = 1;
+var score = 0;
+var record = 0;
+
+var parado = false;
+var saltando = false;
+var agachado = false;
+var click = false;
+var primera = 0;
+
+var tiempoHastaObstaculo = 2;
+var tiempoObstaculoMin = 0.8;
+var tiempoObstaculoMax = 1.8;
+var obstaculoPosY = 16;
+var obstaculos = [];
+
+var tiempoHastaNube = 0.5;
+var tiempoNubeMin = 0.7;
+var tiempoNubeMax = 2.7;
+var maxNubeY = 270;
+var minNubeY = 100;
+var nubes = [];
+var velNube = 0.5;
+
+const recordMusic = new Audio("audio/record.mp3");
+const startMusic = new Audio("audio/start.mp3");
+const jumpMusic = new Audio("audio/jump.mp3");
+const deadMusic = new Audio("audio/dead.mp3");
+
+var contenedor;
+var dino;
+var dinoAgachado;
+var textoScore;
+var suelo;
+var gameOver;
+var inicio;
+var reglas;
+
+function Start() {
+    gameOver = document.querySelector(".game-over");
+    inicio = document.querySelector(".inicio");
+    suelo = document.querySelector(".suelo");
+    reglas = document.querySelector(".reglas");
+    contenedor = document.querySelector(".contenedor");
+    textoScore = document.querySelector(".score");
+    textoRecord = document.querySelector(".record");
+    textoP = document.querySelector(".parpadea");
+
+    if (localStorage.getItem("record") != null){
+        record = localStorage.getItem("record")
+    }
+    textoRecord.innerText += " " + record
+    
+    dino = document.querySelector(".dino");
+    dinoAgachado = document.querySelector(".dino-agachado");
+    dinoAgachado.classList.remove("dino-agachado")
+    document.addEventListener("keydown", HandleKeyDown);
+    document.addEventListener("click", ClickStart);
+}
+
+function Update() {
+    sessionStorage.setItem("primera", "true")
+
+    if(parado) return;
+    if(click){
+        MoverDinosaurio();
+        MoverSuelo();
+        DecidirCrearObstaculos();
+        DecidirCrearNubes();
+        MoverObstaculos();
+        MoverNubes();
+        DetectarColision();
+        reglas.style.height = "0px"
+        if(primera == 1){
+            startMusic.play();
+            dino.classList.add("dino-corriendo");
+            inicio.style.display = ""
+            dinoAgachado.classList.remove("dino-agachado")
+            primera++
+            reglas.style.height = "0px"
+            velY = 500;
+            saltando = true;
+        }
+
+    }else{
+        dino.classList.remove("dino-corriendo");
+        inicio.style.display = "block";
+    }
+    velY -= gravedad * deltaTime;
+}
+
+function HandleKeyDown(ev){
+    if(ev.keyCode == 32 || ev.keyCode == 87 ){
+        if (!parado) Saltar();
+        else location.reload();
+    }else if (ev.keyCode == 83 && !parado) Agacharce(); 
+}
+
+function ClickStart(ev){
+    primera ++
+    click = true;
+}
+
+function Saltar(){
+    if (click){
+        if(dinoPosY === sueloY){
+            jumpMusic.play();
+            saltando = true;
+            velY = impulso;
+            if (agachado){
+                dinoAgachado.classList.remove("dino-agachado");
+                dinoAgachado.classList.remove("dino-corriendo-agachado");
+                dino.classList.add("dino")
+                dino.classList.remove("dino-corriendo")
+            }else dino.classList.remove("dino-corriendo");
+            agachado = false;
+        }
+    }
+}
+
+function Agacharce(){
+    if (!click) return
+    if (!saltando){
+        if (agachado){
+            agachado = false;
+            dino.classList.add("dino")
+            dino.classList.add("dino-corriendo")
+            dinoAgachado.classList.remove("dino-agachado")
+        }  
+        else{
+            agachado = true;
+            dino.classList.remove("dino");
+            dinoAgachado.classList.add("dino-agachado")
+            dinoAgachado.classList.add("dino-corriendo-agachado")
+        }
+    }
+}
+
+function MoverDinosaurio() {
+    dinoPosY += velY * deltaTime;
+    if(dinoPosY < sueloY){
+        
+        TocarSuelo();
+    }
+    if (agachado) dinoAgachado.style.bottom = dinoPosY+"px"; else dino.style.bottom = dinoPosY+"px";
+}
+
+function TocarSuelo() {
+    dinoPosY = sueloY;
+    velY = 0;
+    if(saltando){
+        dino.classList.add("dino-corriendo");
+    }
+    saltando = false;
+}
+
+function MoverSuelo() {
+    sueloX += CalcularDesplazamiento();
+    suelo.style.left = -(sueloX % contenedor.clientWidth) + "px";
+}
+
+function CalcularDesplazamiento() {
+    return velEscenario * deltaTime * gameVel;
+}
+
+function Estrellarse() {
+    if (agachado){
+        dinoAgachado.classList.remove("dino-corriendo-agachado");
+        dinoAgachado.classList.add("dino-agachado-estrellado");
+    }else{
+        dino.classList.remove("dino-corriendo");
+        dino.classList.add("dino-estrellado");
+    }
+    parado = true;
+}
+
+function DecidirCrearObstaculos() {
+    tiempoHastaObstaculo -= deltaTime;
+    if(tiempoHastaObstaculo <= 0) {
+        CrearObstaculo();
+    }
+}
+
+function DecidirCrearNubes() {
+    tiempoHastaNube -= deltaTime;
+    if(tiempoHastaNube <= 0) {
+        CrearNube();
+    }
+}
+
+function CrearObstaculo() {
+    var obstaculo = document.createElement("div");
+    contenedor.appendChild(obstaculo);
+    obstaculo.classList.add("coca");
+    var r = Math.random();
+    if(score > 66){
+        if(r < 0.36) {
+            obstaculo.classList.add("coca2");
+        } else if(r > 0.75) {
+            obstaculo.classList.add("volador");
+        }
+    }else if(score > 25){
+        if (r < 0.11){
+            obstaculo.classList.add("volador")
+        }else if(r < 0.51){
+            obstaculo.classList.add("coca2")
+        }
+    }else{
+        if(r > 0.65) obstaculo.classList.add("coca2");
+    }
+
+    obstaculo.posX = contenedor.clientWidth;
+    obstaculo.style.left = contenedor.clientWidth+"px";
+
+    obstaculos.push(obstaculo);
+    tiempoHastaObstaculo = tiempoObstaculoMin + Math.random() * (tiempoObstaculoMax-tiempoObstaculoMin) / gameVel;
+}
+
+function CrearNube() {
+    var nube = document.createElement("div");
+    contenedor.appendChild(nube);
+    nube.classList.add("nube");
+    nube.posX = contenedor.clientWidth;
+    nube.style.left = contenedor.clientWidth+"px";
+    nube.style.bottom = minNubeY + Math.random() * (maxNubeY-minNubeY)+"px";
+    
+    nubes.push(nube);
+    tiempoHastaNube = tiempoNubeMin + Math.random() * (tiempoNubeMax-tiempoNubeMin) / gameVel;
+}
+
+function MoverObstaculos() {
+    for (var i = obstaculos.length - 1; i >= 0; i--) {
+        if(obstaculos[i].posX < -obstaculos[i].clientWidth) {
+            obstaculos[i].parentNode.removeChild(obstaculos[i]);
+            obstaculos.splice(i, 1);
+            GanarPuntos();
+        }else{
+            obstaculos[i].posX -= CalcularDesplazamiento();
+            obstaculos[i].style.left = obstaculos[i].posX+"px";
+        }
+    }
+}
+
+function MoverNubes() {
+    for (var i = nubes.length - 1; i >= 0; i--) {
+        if(nubes[i].posX < -nubes[i].clientWidth) {
+            nubes[i].parentNode.removeChild(nubes[i]);
+            nubes.splice(i, 1);
+        }else{
+            nubes[i].posX -= CalcularDesplazamiento() * velNube;
+            nubes[i].style.left = nubes[i].posX+"px";
+        }
+    }
+}
+
+function GanarPuntos() {
+    score++;
+    textoScore.innerText = score;
+    if(score == 5){
+        gameVel = 1.3;
+        contenedor.classList.add("mediodia");
+    }else if(score == 14){
+        gameVel = 1.7;
+    }else if(score == 20) {
+        gameVel = 2;
+        contenedor.classList.add("tarde");
+    } else if(score == 33) {
+        gameVel = 2.5;
+    } else if(score == 45) {
+        gameVel = 3;
+        contenedor.classList.add("noche");
+    } else if(score == 100) {
+        gameVel = 3.5;
+    } 
+    suelo.style.animationDuration = (3/gameVel)+"s";
+}
+
+function GameOver() {
+    Estrellarse();
+    gameOver.style.display = "block";
+    if (score > record){
+        record = score;
+        localStorage.setItem("record", record);
+        textoRecord.innerText = ""
+        textoP.innerText = "Record: " + record
+        recordMusic.play();
+        
+        
+    }else{
+        deadMusic.play();
+    }
+}
+
+function DetectarColision() {
+    for (var i = 0; i < obstaculos.length; i++) {
+        if(obstaculos[i].posX > dinoPosX + dino.clientWidth) {
+            //EVADE
+            break; //al estar en orden, no puede chocar con más
+        }else{
+            if ((agachado && IsCollision(dinoAgachado, obstaculos[i], 10, 30, 15, 20)) || 
+            (!agachado && IsCollision(dino, obstaculos[i], 10, 30, 15, 20))){
+                GameOver();
+            }
+        }
+    }
+}
+
+function IsCollision(a, b, paddingTop, paddingRight, paddingBottom, paddingLeft) {
+    var aRect = a.getBoundingClientRect();
+    var bRect = b.getBoundingClientRect();
+
+    return !(
+        ((aRect.top + aRect.height - paddingBottom) < (bRect.top)) ||
+        (aRect.top + paddingTop > (bRect.top + bRect.height)) ||
+        ((aRect.left + aRect.width - paddingRight) < bRect.left) ||
+        (aRect.left + paddingLeft > (bRect.left + bRect.width))
+    );
+}
+
+
+</script>
+</body>
+</html>
