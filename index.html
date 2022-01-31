@@ -104,6 +104,17 @@ body{
 
 }
 
+.reglas{
+    height: 139px;
+    width: 239px;
+
+    position: absolute;
+    top: 10px;
+    left: 10px;
+
+    background: url(img/reglas.png) repeat-x 0px 0px;
+}
+
 .coca{
     width: 31px;
     height: 96px;
@@ -172,7 +183,7 @@ body{
     z-index: 10;
 
     -webkit-text-stroke: 0.5px black;
-    color: #fddd25;
+    color: #ffd900;
     font-family: Verdana;
     font-size: 18px;
     font-weight: bold;
@@ -282,6 +293,8 @@ body{
 
         <div class="suelo"></div>
         
+        <div class="reglas"></div>
+
         <div class="dino dino-corriendo"></div>
         <div class="dino-agachado dino-corriendo-agachado"></div>
 
@@ -347,7 +360,7 @@ var click = false;
 var primera = 0;
 
 var tiempoHastaObstaculo = 2;
-var tiempoObstaculoMin = 0.7;
+var tiempoObstaculoMin = 0.8;
 var tiempoObstaculoMax = 1.8;
 var obstaculoPosY = 16;
 var obstaculos = [];
@@ -372,11 +385,13 @@ var textoScore;
 var suelo;
 var gameOver;
 var inicio;
+var reglas;
 
 function Start() {
     gameOver = document.querySelector(".game-over");
     inicio = document.querySelector(".inicio");
     suelo = document.querySelector(".suelo");
+    reglas = document.querySelector(".reglas");
     contenedor = document.querySelector(".contenedor");
     textoScore = document.querySelector(".score");
     textoRecord = document.querySelector(".record");
@@ -406,17 +421,21 @@ function Update() {
         MoverObstaculos();
         MoverNubes();
         DetectarColision();
+        reglas.style.height = "0px"
         if(primera == 1){
             startMusic.play();
             dino.classList.add("dino-corriendo");
             inicio.style.display = ""
             dinoAgachado.classList.remove("dino-agachado")
             primera++
+            reglas.style.height = "0px"
+            velY = 500;
+            saltando = true;
         }
-        
+
     }else{
         dino.classList.remove("dino-corriendo");
-        inicio.style.display = "block"
+        inicio.style.display = "block";
     }
     velY -= gravedad * deltaTime;
 }
@@ -425,7 +444,7 @@ function HandleKeyDown(ev){
     if(ev.keyCode == 32 || ev.keyCode == 87 ){
         if (!parado) Saltar();
         else location.reload();
-    }else if ((ev.keyCode == 40 || ev.keyCode == 83) && !parado) Agacharce(); 
+    }else if (ev.keyCode == 83 && !parado) Agacharce(); 
 }
 
 function ClickStart(ev){
