@@ -728,9 +728,9 @@ function handleTouchMove(evt) {
 
     if ( Math.abs( xDiff ) < Math.abs( yDiff ) ) {/*most significant*/
         if ( yDiff > 0 ) {
-            if (!parado) Agacharce();
+            if (!parado) saltar();
         } else { 
-            if(!parado) saltar();
+            if(!parado) Agacharce();
         }                                                                 
     }
     xDown = null;
