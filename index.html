@@ -472,6 +472,7 @@ function ClickStart(ev){
 }
 
 function Saltar(){
+    if (esTelefono() != null) alert("saltando");
     if (click){
         if(dinoPosY === sueloY){
             jumpMusic.play();
