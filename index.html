@@ -325,6 +325,7 @@ function Init() {
     time = new Date();
     if(sessionStorage.getItem("primera") != null){
         click = true;
+        primera = 2;
     }
     Start();
     Loop();
@@ -404,9 +405,11 @@ function Start() {
     
     dino = document.querySelector(".dino");
     dinoAgachado = document.querySelector(".dino-agachado");
-    dinoAgachado.classList.remove("dino-agachado")
-    document.addEventListener("keydown", HandleKeyDown);
+    dinoAgachado.classList.remove("dino-agachado");
     document.addEventListener("click", ClickStart);
+    document.addEventListener("keydown", HandleKeyDown);
+    if (esTelefono() != null) document.addEventListener("mousewheel", JugarTelefono);
+
 }
 
 function Update() {
@@ -421,7 +424,7 @@ function Update() {
         MoverObstaculos();
         MoverNubes();
         DetectarColision();
-        reglas.style.height = "0px"
+        reglas.style.height = "0px";
         if(primera == 1){
             startMusic.play();
             dino.classList.add("dino-corriendo");
@@ -445,6 +448,18 @@ function HandleKeyDown(ev){
         if (!parado) Saltar();
         else location.reload();
     }else if (ev.keyCode == 83 && !parado) Agacharce(); 
+}
+
+function JugarTelefono(ev){
+    var delta = null;
+
+    if (ev.wheelDelta) { 
+        delta = ev.wheelDelta / 60;
+    }
+    if (delta != null){
+        if (delta > 0) saltar();
+        else Agacharce();
+    }
 }
 
 function ClickStart(ev){
@@ -668,6 +683,16 @@ function IsCollision(a, b, paddingTop, paddingRight, paddingBottom, paddingLeft)
     );
 }
 
+function esTelefono() {
+    return (
+        (navigator.userAgent.match(/Android/i)) ||
+        (navigator.userAgent.match(/webOS/i)) ||
+        (navigator.userAgent.match(/iPhone/i)) ||
+        (navigator.userAgent.match(/iPod/i)) ||
+        (navigator.userAgent.match(/iPad/i)) ||
+        (navigator.userAgent.match(/BlackBerry/i))
+    );
+}
 
 </script>
 </body>
