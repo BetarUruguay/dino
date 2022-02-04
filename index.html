@@ -729,7 +729,10 @@ function handleTouchMove(evt) {
 
     if ( Math.abs( xDiff ) < Math.abs( yDiff ) ) {/*most significant*/
         if ( yDiff > 0 ) {
-            if (!parado) saltar(); alert("saltando")
+            if (!parado){
+                saltar();
+                alert("saltando");
+            } 
         } else { 
             if(!parado) Agacharce();
         }                                                                 
