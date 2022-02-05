@@ -716,8 +716,8 @@ function startT() {
     document.addEventListener('touchstart', handleTouchStart);        
     document.addEventListener("swiped-up", saltarT);
     document.addEventListener("swiped-down", agacharceT);
-    inicio.style.display = "Toca para empezar...";
-    gameOver.style.display = "<h1>GAME OVER</h1>\n<h6>Toca para continuar...</h6>";
+    inicio.innerText = "Toca para empezar...";
+    gameOver.innerText = "<h1>GAME OVER</h1>\n<h6>Toca para continuar...</h6>";
     contenedor.style.height = "600px";
     dino.style.left = "10px";
     gameVel = 0.7;
