@@ -719,13 +719,8 @@ function startT() {
     inicio.innerHTML = "Toca para empezar...";
     gameOver.innerHTML = "<h1>GAME OVER</h1>\n<h6>Toca para continuar...</h6>";
     gameOver.display = "none";
-    var myfont = new FontFace('Retro Computer', 'url(https://www.dafont.com/es/retro-computer.font)');
-    myfont.load().then(function(loadedFont) {
-        document.fonts.add(loadedFont);
-        inicio.style.fontFamily = 'Retro Computer';
-        gameOver.style.fontFamily = 'Retro Computer';
-    });
     contenedor.style.height = "600px";
+    body.style.height = "70vh";
     dino.style.left = "10px";
     gameVel = 0.7;
     tiempoObstaculoMin = 1;
