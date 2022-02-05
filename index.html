@@ -411,7 +411,7 @@ function Start() {
     if (esTelefono() != null){
         /*document.addEventListener('touchstart', handleTouchStart, false);        
         document.addEventListener('touchmove', handleTouchMove, false);*/
-        document.addEventListener("swiped-right", saltarT);
+        document.addEventListener("swiped-up", saltarT);
         document.addEventListener("swiped-down", agacharceT);
 
     } 
@@ -463,7 +463,6 @@ function ClickStart(ev){
 }
 
 function Saltar(){
-    if (esTelefono() != null) alert("saltando");
     if (click){
         if(dinoPosY === sueloY){
             jumpMusic.play();
