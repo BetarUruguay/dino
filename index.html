@@ -717,8 +717,12 @@ function startT() {
     document.addEventListener("swiped-up", saltarT);
     document.addEventListener("swiped-down", agacharceT);
     inicio.innerHTML = "Toca para empezar...";
+    inicio.style.fontFamily = "Retro Computer";
+    inicio.style.src = 'url("https://www.dafont.com/es/retro-computer.font")';
     gameOver.innerHTML = "<h1>GAME OVER</h1>\n<h6>Toca para continuar...</h6>";
     gameOver.display = "none";
+    gameOver.style.fontFamily = "Retro Computer";
+    gameOver.style.src = 'url("https://www.dafont.com/es/retro-computer.font")';
     contenedor.style.height = "600px";
     dino.style.left = "10px";
     gameVel = 0.7;
