@@ -614,36 +614,34 @@ function GanarPuntos() {
     textoScore.innerText = score;
     switch (score) {
         case 5:
-            if (esTelefono != null) gameVel = 0.8;
-            else gameVel = 1.6;
+            gameVel = 1.6;
             contenedor.classList.add("mediodia");
             break;
     
         case 14:
-            if (esTelefono != null) gameVel = 0.85;
-            else gameVel = 2;
+            gameVel = 2;
             break;
 
         case 20:
-            if (esTelefono != null) gameVel = 1;
-            else gameVel = 2.5;
+            gameVel = 2.5;
             contenedor.classList.add("tarde");
+            break;
+            
+        case 26:
+            gameVel = 3;
             break;
 
         case 33:
-            if (esTelefono != null) gameVel = 1.2;
-            else gameVel = 3;
+            gameVel = 3.5;
             break;
 
         case 45:
-            if (esTelefono != null) gameVel = 1.5;
-            else gameVel = 3.5;
+            gameVel = 4;
             contenedor.classList.add("noche");
             break;
         
         case 64:
-            if (esTelefono != null) gameVel = 1.75;
-            else gameVel = 4;
+            gameVel = 4.5;
             break;
 
         default:
