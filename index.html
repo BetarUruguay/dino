@@ -322,10 +322,10 @@ if(document.readyState === "complete" || document.readyState === "interactive"){
 
 function Init() {
     time = new Date();
-    if(sessionStorage.getItem("primera") != null){
+    /*if(sessionStorage.getItem("primera") != null){
         click = true;
         primera = 2;
-    }
+    }*/
     Start();
     Loop();
 }
@@ -397,10 +397,10 @@ function Start() {
     textoRecord = document.querySelector(".record");
     textoP = document.querySelector(".parpadea");
 
-   /* if (localStorage.getItem("record") != null){
+    if (localStorage.getItem("record") != null){
         record = localStorage.getItem("record")
-    }*/
-    textoRecord.innerText += " 0";// + record
+    }
+    textoRecord.innerText += " " + record;
     
     dino = document.querySelector(".dino");
     dinoAgachado = document.querySelector(".dino-agachado");
