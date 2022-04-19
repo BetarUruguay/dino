@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -399,7 +400,7 @@ function Start() {
     if (localStorage.getItem("record") != null){
         record = localStorage.getItem("record")
     }
-    textoRecord.innerText = " " + record;
+    textoRecord.innerText += " " + record
     
     dino = document.querySelector(".dino");
     dinoAgachado = document.querySelector(".dino-agachado");
