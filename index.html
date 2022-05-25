@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -144,6 +143,18 @@ body{
     z-index: 1;
 
     background: url(img/coca3.png) no-repeat;
+}
+
+.carrito{
+    width: 110px;
+    height: 70px;
+
+    position: absolute;
+    bottom: 16px;
+    left: 600px;
+    z-index: 1;
+
+    background: url(img/carrito.png) no-repeat;
 }
 
 .nube{
@@ -400,7 +411,7 @@ function Start() {
     if (localStorage.getItem("record") != null){
         record = localStorage.getItem("record")
     }
-    textoRecord.innerText += " " + record;
+    textoRecord.innerText += " " + record
     
     dino = document.querySelector(".dino");
     dinoAgachado = document.querySelector(".dino-agachado");
@@ -550,7 +561,15 @@ function CrearObstaculo() {
     contenedor.appendChild(obstaculo);
     obstaculo.classList.add("coca");
     var r = Math.random();
-    if(score > 66){
+    if (score > 80){
+            if (r > 0.23 && r < 0.40)  {
+                obstaculo.classList.add("carrito");
+            } else if (r >= 0.40 && r < 0.67) {
+                obstaculo.classList.add("volador");
+            } else if (r >= 0.67){
+                obstaculo.classList.add("coca2");
+            }
+    }else if(score > 66){
         if(r < 0.36) {
             obstaculo.classList.add("coca2");
         } else if(r > 0.75) {
@@ -592,7 +611,11 @@ function MoverObstaculos() {
             obstaculos.splice(i, 1);
             GanarPuntos();
         }else{
-            obstaculos[i].posX -= CalcularDesplazamiento();
+            if(obstaculos[i].clientWidth == 110){
+                obstaculos[i].posX -= CalcularDesplazamiento() * 1.4;
+            }else{
+                obstaculos[i].posX -= CalcularDesplazamiento();
+            }
             obstaculos[i].style.left = obstaculos[i].posX+"px";
         }
     }
@@ -615,30 +638,36 @@ function GanarPuntos() {
     textoScore.innerText = score;
     switch (score) {
         case 5:
-            gameVel = 1.3;
+            if (esTelefono != null) gameVel = 0.8;
+            else gameVel = 1.3;
             contenedor.classList.add("mediodia");
             break;
     
         case 14:
-            gameVel = 1.6;
+            if (esTelefono != null) gameVel = 0.85;
+            else gameVel = 1.7;
             break;
-     
-        case 33:
-            gameVel = 2;
+
+        case 20:
+            if (esTelefono != null) gameVel = 1;
+            else gameVel = 2;
             contenedor.classList.add("tarde");
             break;
 
-        case 45:
-            gameVel = 2.5;
+        case 33:
+            if (esTelefono != null) gameVel = 1.2;
+            else gameVel = 2.5;
             break;
-            
-        case 53:
-            gameVel = 3;
+
+        case 45:
+            if (esTelefono != null) gameVel = 1.5;
+            else gameVel = 3;
             contenedor.classList.add("noche");
             break;
-         
-        case 64:
-            gameVel = 3.5;
+        
+        case 100:
+            if (esTelefono != null) gameVel = 1.75;
+            else gameVel = 3.5;
             break;
 
         default:
